@@ -1,12 +1,10 @@
 import fetch from "node-fetch";
 
-
-export async function getCommits() {
+async function sendBitBucketGetRequest(path,pathApiOrBranchUtils) {
     try {
         const response = await fetch(process.env.BITBUCKET_URL +
-            '/rest/api/1.0/projects/' + process.env.BITBUCKET_PROJECT_NAME +
-            '/repos/' + process.env.BITBUCKET_REPO_SLUG + '/commits/?since='
-            + process.env.SINCE + '&until=' + process.env.UNTIL, {
+            '/rest/'+pathApiOrBranchUtils+'/1.0/projects/' + process.env.BITBUCKET_PROJECT_NAME +
+            '/repos/' + process.env.BITBUCKET_REPO_SLUG + path, {
 
             method: 'GET',
             headers: {
@@ -15,31 +13,7 @@ export async function getCommits() {
             }
         })
         if (response.status === 200) {
-            return await response.json();
-        } else {
-            console.log(
-                `Response: ${response.status} ${response.statusText}`
-            );
-        }
-    }
-    catch (error){
-        console.log(error);
-    }
-}
-export async function getCommitContent(commitId) {
-    try {
-        const response = await fetch(process.env.BITBUCKET_URL +
-            '/rest/api/1.0/projects/' + process.env.BITBUCKET_PROJECT_NAME +
-            '/repos/' + process.env.BITBUCKET_REPO_SLUG + '/commits/'+commitId+'/changes', {
-
-            method: 'GET',
-            headers: {
-                Authorization: "Bearer " + process.env.BITBUCKET_ACCESSTOKEN,
-                'Accept': 'application/json'
-            }
-        })
-        if (response.status === 200) {
-            return await response.json();
+            return (await response.json()).values;
         } else {
             console.log(
                 `Response: ${response.status} ${response.statusText}`
@@ -51,29 +25,14 @@ export async function getCommitContent(commitId) {
     }
 }
 
-export async function getCommitBranch(commitId){
-    try {
-        const response = await fetch(process.env.BITBUCKET_URL +
-            '/rest/branch-utils/1.0/projects/' + process.env.BITBUCKET_PROJECT_NAME +
-            '/repos/' + process.env.BITBUCKET_REPO_SLUG + '/branches/info/'+
-            commitId, {
+export function getCommits() {
+    return sendBitBucketGetRequest('/commits/?since='
+        + process.env.SINCE + '&until=' + process.env.UNTIL,'api');
+}
+export function getCommitContent(commitId) {
+    return sendBitBucketGetRequest('/commits/'+commitId+'/changes','api');
+}
 
-            method: 'GET',
-            headers: {
-                Authorization: "Bearer " + process.env.BITBUCKET_ACCESSTOKEN,
-                'Accept': 'application/json'
-            }
-        })
-        if (response.status === 200) {
-            return await response.json();
-        } else {
-            console.log(
-                `Response: ${response.status} ${response.statusText}`
-            );
-        }
-    }
-    catch (error){
-        console.log(error);
-    }
-
+export function getCommitBranch(commitId){
+    return sendBitBucketGetRequest('/branches/info/'+ commitId,'branch-utils');
 }
