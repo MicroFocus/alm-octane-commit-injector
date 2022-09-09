@@ -1,11 +1,12 @@
-import {config} from "dotenv";
-import {buildCommitOctaneJson} from "./src/utils/JsonConverter.js";
-import {groupCommitsByBranch} from "./src/utils/UtilFunctions.js";
-import {getCommits} from "./src/services/BitBucketServices.js";
-
+import { config } from 'dotenv';
+import { buildCommitOctaneJson } from './src/utils/jsonConverter.js';
+import { groupCommitsByBranch } from './src/utils/utilFunctions.js';
+import { getCommits } from './src/services/bitBucketServices.js';
 
 config();
-async function main(){
-   buildCommitOctaneJson(await groupCommitsByBranch(await getCommits()));
+
+async function main() {
+  buildCommitOctaneJson(await groupCommitsByBranch(await getCommits()));
 }
+
 main();
