@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 async function sendBitBucketGetRequest(path, pathApiOrBranchUtils) {
-  if (path.charAt(0) !== '/') path = '/' + path;
+  if (!path.startsWith('/')) path = '/' + path;
   try {
     const response = await fetch(
       process.env.BITBUCKET_URL +

@@ -26,8 +26,7 @@ export async function buildCommitOctaneJson(commits) {
   return octaneCommitJson;
 }
 
-export async function convertBitBucketServerToOctane(commit) {
-  const changes = await getCommitContent(commit.id);
+export async function convertBitBucketServerToOctane(commit, changes) {
   return {
     user: commit.committer.name,
     userEmail: commit.committer.emailAddress,
@@ -42,12 +41,21 @@ export async function convertBitBucketServerToOctane(commit) {
 function extractChangesForCommit(changes, commitId) {
   let changesToReturn = [];
   changes.forEach((change) => {
-    changesToReturn.push({
-      type: change.properties.gitChangeType,
-      file: change.path.toString,
-      renameToFile: null,
-      commitId: null,
-    });
+    if (change.properties.gitChangeType === 'RENAME') {
+      changesToReturn.push({
+        type: change.properties.gitChangeType,
+        file: change.srcPath.toString,
+        renameToFile: change.path.toString,
+        commitId: commitId,
+      });
+    } else {
+      changesToReturn.push({
+        type: change.properties.gitChangeType,
+        file: change.path.toString,
+        renameToFile: null,
+        commitId: commitId,
+      });
+    }
   });
   return changesToReturn;
 }
