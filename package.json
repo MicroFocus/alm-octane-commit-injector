@@ -4,7 +4,14 @@
   "description": "A commit injector for Alm Octane",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 2,
+    "jsxSingleQuote": true,
+    "quoteProps": "as-needed",
+    "semi": true
   },
   "type": "module",
   "repository": {
@@ -14,7 +21,9 @@
   "author": "Madalin Tiutiu",
   "license": "ISC",
   "dependencies": {
+    "@microfocus/alm-octane-js-rest-sdk": "^16.0.400",
     "dotenv": "^16.0.2",
+    "js-logger": "^1.6.1",
     "node-fetch": "^3.2.10"
   },
   "devDependencies": {
