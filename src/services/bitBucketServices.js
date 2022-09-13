@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import log from "../config/loggerConfig.js";
 
 async function sendBitBucketGetRequest(path, pathApiOrBranchUtils) {
   if (!path.startsWith('/')) path = '/' + path;
@@ -31,6 +32,7 @@ async function sendBitBucketGetRequest(path, pathApiOrBranchUtils) {
 }
 
 export function getCommits() {
+  log.debug('Fetching commits...')
   return sendBitBucketGetRequest(
     '/commits/?since=' + process.env.SINCE + '&until=' + process.env.UNTIL,
     'api'

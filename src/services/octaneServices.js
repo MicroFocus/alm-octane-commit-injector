@@ -29,7 +29,7 @@ async function sendOctanePutRequest(path, entityList) {
 }
 
 export async function putOctaneCommits(commits) {
-  log.debug('Inserting commits to ALM Octane...');
+  log.debug('Injecting commits to ALM Octane...');
   return await sendOctanePutRequest(
     configs.octaneSharedSpace +
       '/scm-commits?instance-id=' +

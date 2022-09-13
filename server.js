@@ -31,4 +31,4 @@ putOctaneCommits(
   .then((nrOfSentCommits) =>
     log.debug(`${nrOfSentCommits} commits have been sent to ALM Octane`)
   )
-  .catch((err) => log.error('Something went wrong' + err.message));
+  .catch((err) => log.error('Something went wrong\n' + err.message));

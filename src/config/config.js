@@ -2,8 +2,7 @@ import { config } from 'dotenv';
 
 config();
 
-let configs;
-export default configs = {
+const configs = {
   octaneUrl: process.env.OCTANE_URL,
   octaneSharedSpace: process.env.OCTANE_SHAREDSPACE,
   octaneWorkspace: process.env.OCTANE_WORKSPACE,
@@ -17,5 +16,6 @@ export default configs = {
   bitBucketProjectName: process.env.BITBUCKET_PROJECT_NAME,
   bitBucketRepoSlug: process.env.BITBUCKET_REPO_SLUG,
   bitBucketSince: process.env.SINCE,
-  bitBucketUntil: process.env.UNTIL
+  bitBucketUntil: process.env.UNTIL,
 };
+export default configs;
