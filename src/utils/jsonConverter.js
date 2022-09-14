@@ -1,7 +1,7 @@
 import configs from '../config/config.js';
 import log from '../config/loggerConfig.js';
 
-export async function buildCommitOctaneJson(commits) {
+export const buildCommitOctaneJson = async (commits) => {
   log.debug('Mapping commits...');
   const repositoryJson = {
     type: 'git',
@@ -26,9 +26,9 @@ export async function buildCommitOctaneJson(commits) {
     key = keys.next();
   }
   return octaneCommitJson;
-}
+};
 
-export async function convertBitBucketServerToOctane(commit, changes) {
+export const convertBitBucketServerToOctane = async (commit, changes) => {
   return {
     user: commit.committer.name,
     userEmail: commit.committer.emailAddress,
@@ -38,9 +38,9 @@ export async function convertBitBucketServerToOctane(commit, changes) {
     revId: commit.id,
     changes: extractChangesForCommit(changes),
   };
-}
+};
 
-function extractChangesForCommit(changes) {
+const extractChangesForCommit = (changes) => {
   return changes.map((change) => {
     const isRename = change.properties.gitChangeType === 'RENAME';
     return {
@@ -50,4 +50,4 @@ function extractChangesForCommit(changes) {
       commitId: null,
     };
   });
-}
+};

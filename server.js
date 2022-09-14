@@ -9,11 +9,9 @@ import {
 } from './src/services/bitBucketServices.js';
 import Multimap from 'multimap';
 import { putOctaneCommits } from './src/services/octaneServices.js';
-import log from "./src/config/loggerConfig.js";
+import log from './src/config/loggerConfig.js';
 
-
-
-async function groupCommitsByBranch(commits) {
+const groupCommitsByBranch = async (commits) => {
   let map = new Multimap();
   for (const commit of commits) {
     const changes = await getCommitContent(commit.id);
@@ -23,7 +21,7 @@ async function groupCommitsByBranch(commits) {
     );
   }
   return map;
-}
+};
 
 putOctaneCommits(
   await buildCommitOctaneJson(await groupCommitsByBranch(await getCommits()))

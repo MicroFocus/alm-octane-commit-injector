@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import log from "../config/loggerConfig.js";
+import log from '../config/loggerConfig.js';
 
-async function sendBitBucketGetRequest(path, pathApiOrBranchUtils) {
+const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
   if (!path.startsWith('/')) path = '/' + path;
   try {
     const response = await fetch(
@@ -29,20 +29,20 @@ async function sendBitBucketGetRequest(path, pathApiOrBranchUtils) {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export function getCommits() {
-  log.debug('Fetching commits...')
+export const getCommits = () => {
+  log.debug('Fetching commits...');
   return sendBitBucketGetRequest(
     '/commits/?since=' + process.env.SINCE + '&until=' + process.env.UNTIL,
     'api'
   );
-}
+};
 
-export function getCommitContent(commitId) {
+export const getCommitContent = (commitId) => {
   return sendBitBucketGetRequest('/commits/' + commitId + '/changes', 'api');
-}
+};
 
-export function getCommitBranch(commitId) {
+export const getCommitBranch = (commitId) => {
   return sendBitBucketGetRequest('/branches/info/' + commitId, 'branch-utils');
-}
+};
