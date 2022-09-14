@@ -2,22 +2,19 @@ import { Octane } from '@microfocus/alm-octane-js-rest-sdk';
 import configs from '../config/config.js';
 import log from '../config/loggerConfig.js';
 
-const octane = () => {
-  return new Octane({
-    server: configs.octaneUrl,
-    sharedSpace: configs.octaneSharedSpace,
-    workspace: configs.octaneWorkspace,
-    user: configs.octaneUser,
-    password: configs.octanePassword,
-    headers: {
-      ALM_OCTANE_TECH_PREVIEW: true,
-      ALM_OCTANE_PRIVATE: true,
-    },
-  });
-};
-
+const octane = new Octane({
+  server: configs.octaneUrl,
+  sharedSpace: configs.octaneSharedSpace,
+  workspace: configs.octaneWorkspace,
+  user: configs.octaneUser,
+  password: configs.octanePassword,
+  headers: {
+    ALM_OCTANE_TECH_PREVIEW: true,
+    ALM_OCTANE_PRIVATE: true,
+  },
+});
 const sendOctanePutRequest = async (path, entityList) => {
-  await octane().executeCustomRequest(
+  await octane.executeCustomRequest(
     '/api/shared_spaces/' + path,
     Octane.operationTypes.update,
     entityList,

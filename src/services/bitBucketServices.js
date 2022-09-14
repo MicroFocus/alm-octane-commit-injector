@@ -1,22 +1,23 @@
 import fetch from 'node-fetch';
 import log from '../config/loggerConfig.js';
+import configs from "../config/config.js";
 
 const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
   if (!path.startsWith('/')) path = '/' + path;
   try {
     const response = await fetch(
-      process.env.BITBUCKET_URL +
+      configs.bitBucketUrl +
         '/rest/' +
         pathApiOrBranchUtils +
         '/1.0/projects/' +
-        process.env.BITBUCKET_PROJECT_NAME +
+        configs.bitBucketProjectName +
         '/repos/' +
-        process.env.BITBUCKET_REPO_SLUG +
+        configs.bitBucketRepoSlug +
         path,
       {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + process.env.BITBUCKET_ACCESSTOKEN,
+          Authorization: 'Bearer ' + configs.bitBucketAccessToken,
           Accept: 'application/json',
         },
       }
@@ -34,7 +35,7 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
 export const getCommits = () => {
   log.debug('Fetching commits...');
   return sendBitBucketGetRequest(
-    '/commits/?since=' + process.env.SINCE + '&until=' + process.env.UNTIL,
+    '/commits/?since=' + configs.bitBucketSince + '&until=' + configs.bitBucketUntil,
     'api'
   );
 };
