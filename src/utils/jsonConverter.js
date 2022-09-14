@@ -1,14 +1,16 @@
-import { getCommitContent } from '../services/bitBucketServices.js';
+import configs from '../config/config.js';
+import log from '../config/loggerConfig.js';
 
-export async function buildCommitOctaneJson(commits) {
+export const buildCommitOctaneJson = async (commits) => {
+  log.debug('Mapping commits...');
   const repositoryJson = {
     type: 'git',
     url:
-      process.env.BITBUCKET_URL +
+      configs.bitBucketUrl +
       '/scm/' +
-      process.env.BITBUCKET_PROJECT_NAME +
+      configs.bitBucketProjectName +
       '/' +
-      process.env.BITBUCKET_REPO_SLUG +
+      configs.bitBucketRepoSlug +
       '.git',
     branch: 'master',
   };
@@ -24,38 +26,28 @@ export async function buildCommitOctaneJson(commits) {
     key = keys.next();
   }
   return octaneCommitJson;
-}
+};
 
-export async function convertBitBucketServerToOctane(commit, changes) {
+export const convertBitBucketServerToOctane = async (commit, changes) => {
   return {
     user: commit.committer.name,
     userEmail: commit.committer.emailAddress,
-    time: commit.committerTimestamp,
+    time: commit.committerTimestamp.toString(),
     parentRevId: commit.parents[0].id,
     comment: commit.message,
     revId: commit.id,
-    changes: extractChangesForCommit(changes, commit.id),
+    changes: extractChangesForCommit(changes),
   };
-}
+};
 
-function extractChangesForCommit(changes, commitId) {
-  let changesToReturn = [];
-  changes.forEach((change) => {
-    if (change.properties.gitChangeType === 'RENAME') {
-      changesToReturn.push({
-        type: change.properties.gitChangeType,
-        file: change.srcPath.toString,
-        renameToFile: change.path.toString,
-        commitId: commitId,
-      });
-    } else {
-      changesToReturn.push({
-        type: change.properties.gitChangeType,
-        file: change.path.toString,
-        renameToFile: null,
-        commitId: commitId,
-      });
-    }
+const extractChangesForCommit = (changes) => {
+  return changes.map((change) => {
+    const isRename = change.properties.gitChangeType === 'RENAME';
+    return {
+      type: change.properties.gitChangeType,
+      file: isRename ? change.srcPath.toString : change.path.toString,
+      renameToFile: isRename ? change.path.toString : null,
+      commitId: null,
+    };
   });
-  return changesToReturn;
-}
+};

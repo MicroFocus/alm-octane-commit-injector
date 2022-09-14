@@ -1,4 +1,3 @@
-import { config } from 'dotenv';
 import {
   buildCommitOctaneJson,
   convertBitBucketServerToOctane,
@@ -9,10 +8,10 @@ import {
   getCommits,
 } from './src/services/bitBucketServices.js';
 import Multimap from 'multimap';
+import { putOctaneCommits } from './src/services/octaneServices.js';
+import log from './src/config/loggerConfig.js';
 
-config();
-
-async function groupCommitsByBranch(commits) {
+const groupCommitsByBranch = async (commits) => {
   let map = new Multimap();
   for (const commit of commits) {
     const changes = await getCommitContent(commit.id);
@@ -22,10 +21,12 @@ async function groupCommitsByBranch(commits) {
     );
   }
   return map;
-}
+};
 
-async function main() {
-  await buildCommitOctaneJson(await groupCommitsByBranch(await getCommits()));
-}
-
-main();
+putOctaneCommits(
+  await buildCommitOctaneJson(await groupCommitsByBranch(await getCommits()))
+)
+  .then((nrOfSentCommits) =>
+    log.debug(`${nrOfSentCommits} commits have been sent to ALM Octane`)
+  )
+  .catch((err) => log.error('Something went wrong\n' + err.message));
