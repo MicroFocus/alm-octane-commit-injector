@@ -13,7 +13,7 @@ const configs = {
   octaneBuildId: process.env.OCTANE_BUILD_ID,
   bitBucketUrl: process.env.BITBUCKET_URL,
   bitBucketAccessToken: process.env.BITBUCKET_ACCESSTOKEN,
-  bitBucketProjectName: process.env.BITBUCKET_PROJECT_NAME,
+  bitBucketProjectKey: process.env.BITBUCKET_PROJECT_KEY,
   bitBucketRepoSlug: process.env.BITBUCKET_REPO_SLUG,
   bitBucketSince: process.env.SINCE,
   bitBucketUntil: process.env.UNTIL,

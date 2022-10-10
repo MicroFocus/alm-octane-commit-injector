@@ -8,7 +8,7 @@ export const buildCommitOctaneJson = async (commits) => {
     url:
       configs.bitBucketUrl +
       '/scm/' +
-      configs.bitBucketProjectName +
+      configs.bitBucketProjectKey +
       '/' +
       configs.bitBucketRepoSlug +
       '.git',

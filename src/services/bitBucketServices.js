@@ -10,7 +10,7 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
         '/rest/' +
         pathApiOrBranchUtils +
         '/1.0/projects/' +
-        configs.bitBucketProjectName +
+        configs.bitBucketProjectKey +
         '/repos/' +
         configs.bitBucketRepoSlug +
         path,
