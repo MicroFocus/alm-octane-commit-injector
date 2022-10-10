@@ -9,7 +9,7 @@ const configs = {
   octaneUser: process.env.OCTANE_CLIENT_ID,
   octanePassword: process.env.OCTANE_CLIENT_SECRET,
   octaneCIServer: process.env.OCTANE_CI_SERVER_ID,
-  octaneJobId: process.envOCTANE_JOB_ID,
+  octaneJobId: process.env.OCTANE_JOB_ID,
   octaneBuildId: process.env.OCTANE_BUILD_ID,
   bitBucketUrl: process.env.BITBUCKET_URL,
   bitBucketAccessToken: process.env.BITBUCKET_ACCESSTOKEN,

@@ -5,21 +5,23 @@ import log from '../config/loggerConfig.js';
 const octane = new Octane({
   server: configs.octaneUrl,
   sharedSpace: configs.octaneSharedSpace,
-  workspace: configs.octaneWorkspace,
+  workSpace: configs.octaneWorkspace,
   user: configs.octaneUser,
   password: configs.octanePassword,
   headers: {
-    ALM_OCTANE_TECH_PREVIEW: true,
-    ALM_OCTANE_PRIVATE: true,
+    'ALM-OCTANE-TECH-PREVIEW': true,
+    'ALM-OCTANE-PRIVATE': true,
   },
 });
+
 const sendOctanePutRequest = async (path, entityList) => {
-  await octane.executeCustomRequest(
+  const response = await octane.executeCustomRequest(
     '/api/shared_spaces/' + path,
     Octane.operationTypes.update,
     entityList,
     { 'content-type': 'application/json' }
   );
+
   const numberOfCommits = entityList.reduce(
     (total, entity) => total + entity.commits.length,
     0
