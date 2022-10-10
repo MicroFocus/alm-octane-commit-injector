@@ -5,7 +5,7 @@ import log from '../config/loggerConfig.js';
 const octane = new Octane({
   server: configs.octaneUrl,
   sharedSpace: configs.octaneSharedSpace,
-  workSpace: configs.octaneWorkspace,
+  workspace: configs.octaneWorkspace,
   user: configs.octaneUser,
   password: configs.octanePassword,
   headers: {
@@ -15,13 +15,12 @@ const octane = new Octane({
 });
 
 const sendOctanePutRequest = async (path, entityList) => {
-  const response = await octane.executeCustomRequest(
+  await octane.executeCustomRequest(
     '/api/shared_spaces/' + path,
     Octane.operationTypes.update,
     entityList,
     { 'content-type': 'application/json' }
   );
-
   const numberOfCommits = entityList.reduce(
     (total, entity) => total + entity.commits.length,
     0
