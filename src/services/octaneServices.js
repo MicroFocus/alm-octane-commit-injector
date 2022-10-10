@@ -9,10 +9,11 @@ const octane = new Octane({
   user: configs.octaneUser,
   password: configs.octanePassword,
   headers: {
-    ALM_OCTANE_TECH_PREVIEW: true,
-    ALM_OCTANE_PRIVATE: true,
+    'ALM-OCTANE-TECH-PREVIEW': true,
+    'ALM-OCTANE-PRIVATE': true,
   },
 });
+
 const sendOctanePutRequest = async (path, entityList) => {
   await octane.executeCustomRequest(
     '/api/shared_spaces/' + path,

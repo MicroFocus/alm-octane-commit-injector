@@ -8,7 +8,7 @@ export const buildCommitOctaneJson = async (commits) => {
     url:
       configs.bitBucketUrl +
       '/scm/' +
-      configs.bitBucketProjectName +
+      configs.bitBucketProjectKey +
       '/' +
       configs.bitBucketRepoSlug +
       '.git',
@@ -43,8 +43,12 @@ export const convertBitBucketServerToOctane = async (commit, changes) => {
 const extractChangesForCommit = (changes) => {
   return changes.map((change) => {
     const isRename = change.properties.gitChangeType === 'RENAME';
+    let typeOfCommit = 'edit';
+    if (change.properties.gitChangeType === 'ADD') typeOfCommit = 'add';
+    else if (change.properties.gitChangeType === 'DELETE')
+      typeOfCommit = 'delete';
     return {
-      type: change.properties.gitChangeType,
+      type: typeOfCommit,
       file: isRename ? change.srcPath.toString : change.path.toString,
       renameToFile: isRename ? change.path.toString : null,
       commitId: null,

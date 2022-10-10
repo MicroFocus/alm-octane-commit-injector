@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import log from '../config/loggerConfig.js';
-import configs from "../config/config.js";
+import configs from '../config/config.js';
 
 const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
   if (!path.startsWith('/')) path = '/' + path;
@@ -10,7 +10,7 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
         '/rest/' +
         pathApiOrBranchUtils +
         '/1.0/projects/' +
-        configs.bitBucketProjectName +
+        configs.bitBucketProjectKey +
         '/repos/' +
         configs.bitBucketRepoSlug +
         path,
@@ -35,7 +35,10 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
 export const getCommits = () => {
   log.debug('Fetching commits...');
   return sendBitBucketGetRequest(
-    '/commits/?since=' + configs.bitBucketSince + '&until=' + configs.bitBucketUntil,
+    '/commits/?since=' +
+      configs.bitBucketSince +
+      '&until=' +
+      configs.bitBucketUntil,
     'api'
   );
 };
