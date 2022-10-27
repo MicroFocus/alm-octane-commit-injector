@@ -50,8 +50,6 @@ const groupCommitsByBranch = async () => {
     configs.bitBucketUntil !== ''
       ? (await getCommitById(configs.bitBucketUntil)).committerTimestamp
       : undefined;
-  console.log(untilCommitTimestamp);
-  console.log(new Date(untilCommitTimestamp));
   for (const branch of branches) {
     const commits = await getCommits(branch);
     const convertedCommits = [];
@@ -70,7 +68,7 @@ const groupCommitsByBranch = async () => {
       const nrCommits = await putOctaneCommits(
         await buildCommitOctaneJson(convertedCommits, branch)
       );
-      console.log(`${nrCommits} commits have been sent to ALM Octane`);
+      log.debug(`${nrCommits} commits have been sent to ALM Octane`);
     } catch (error) {
       log.debug('Something went wrong !' + error.message);
     }

@@ -17,7 +17,7 @@
 import configs from '../config/config.js';
 import log from '../config/loggerConfig.js';
 
-export const buildCommitOctaneJson = async (commits,branch) => {
+export const buildCommitOctaneJson = async (commits, branch) => {
   log.debug('Mapping commits...');
   const repositoryJson = {
     type: 'git',
