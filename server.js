@@ -19,30 +19,66 @@ import {
   convertBitBucketServerToOctane,
 } from './src/utils/jsonConverter.js';
 import {
-  getCommitBranch,
+  getBranches,
   getCommitContent,
   getCommits,
+  getCommitById,
 } from './src/services/bitBucketServices.js';
-import Multimap from 'multimap';
-import { putOctaneCommits } from './src/services/octaneServices.js';
+import {
+  getOctaneBuild,
+  putOctaneCommits,
+} from './src/services/octaneServices.js';
 import log from './src/config/loggerConfig.js';
+import configs from './src/config/config.js';
 
-const groupCommitsByBranch = async (commits) => {
-  let map = new Multimap();
-  for (const commit of commits) {
-    const changes = await getCommitContent(commit.id);
-    map.set(
-      (await getCommitBranch(commit.id))[0].displayId,
-      await convertBitBucketServerToOctane(commit, changes)
-    );
+const verifyBranches = async () => {
+  const branches = [];
+  (await getBranches()).forEach((branch) => branches.push(branch.displayId));
+  if (configs.bitBucketBranches === '') return branches;
+  else {
+    const configBranches = [];
+    configs.bitBucketBranches.split(';').forEach((branch) => {
+      if (branches.includes(branch)) configBranches.push(branch);
+    });
+    return configBranches;
   }
-  return map;
 };
 
-putOctaneCommits(
-  await buildCommitOctaneJson(await groupCommitsByBranch(await getCommits()))
-)
-  .then((nrOfSentCommits) =>
-    log.debug(`${nrOfSentCommits} commits have been sent to ALM Octane`)
-  )
-  .catch((err) => log.error('Something went wrong\n' + err.message));
+const groupCommitsByBranch = async () => {
+  const branches = await verifyBranches();
+  const untilCommitTimestamp =
+    configs.bitBucketUntil !== ''
+      ? (await getCommitById(configs.bitBucketUntil)).committerTimestamp
+      : undefined;
+  console.log(untilCommitTimestamp);
+  console.log(new Date(untilCommitTimestamp));
+  for (const branch of branches) {
+    const commits = await getCommits(branch);
+    const convertedCommits = [];
+    for (const commit of commits) {
+      if (
+        untilCommitTimestamp === undefined ||
+        new Date(commit.committerTimestamp) < new Date(untilCommitTimestamp)
+      ) {
+        const changes = await getCommitContent(commit.id);
+        convertedCommits.push(
+          await convertBitBucketServerToOctane(commit, changes)
+        );
+      }
+    }
+    try {
+      const nrCommits = await putOctaneCommits(
+        await buildCommitOctaneJson(convertedCommits, branch)
+      );
+      console.log(`${nrCommits} commits have been sent to ALM Octane`);
+    } catch (error) {
+      log.debug('Something went wrong !' + error.message);
+    }
+  }
+};
+const injectCommits = async () => {
+  if (await getOctaneBuild()) await groupCommitsByBranch();
+  else log.error(`Build with id: ${configs.octaneBuildId} is not in given workspace : ${configs.octaneWorkspace}`);
+};
+
+await injectCommits();

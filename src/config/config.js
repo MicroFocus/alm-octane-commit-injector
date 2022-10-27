@@ -31,6 +31,7 @@ const configs = {
   bitBucketAccessToken: process.env.BITBUCKET_ACCESSTOKEN,
   bitBucketProjectKey: process.env.BITBUCKET_PROJECT_KEY,
   bitBucketRepoSlug: process.env.BITBUCKET_REPO_SLUG,
+  bitBucketBranches: process.env.BITBUCKET_BRANCHES,
   bitBucketSince: process.env.SINCE,
   bitBucketUntil: process.env.UNTIL,
 };

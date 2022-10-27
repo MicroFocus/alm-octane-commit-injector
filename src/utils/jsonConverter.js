@@ -17,7 +17,7 @@
 import configs from '../config/config.js';
 import log from '../config/loggerConfig.js';
 
-export const buildCommitOctaneJson = async (commits) => {
+export const buildCommitOctaneJson = async (commits,branch) => {
   log.debug('Mapping commits...');
   const repositoryJson = {
     type: 'git',
@@ -28,20 +28,14 @@ export const buildCommitOctaneJson = async (commits) => {
       '/' +
       configs.bitBucketRepoSlug +
       '.git',
-    branch: 'master',
+    branch: branch,
   };
-  const keys = commits.keys();
-  let key = keys.next();
-  const octaneCommitJson = [];
-  while (!key.done) {
-    repositoryJson.branch = key.value;
-    octaneCommitJson.push({
+  return [
+    {
       repository: repositoryJson,
-      commits: commits.get(key.value),
-    });
-    key = keys.next();
-  }
-  return octaneCommitJson;
+      commits: commits,
+    },
+  ];
 };
 
 export const convertBitBucketServerToOctane = async (commit, changes) => {
