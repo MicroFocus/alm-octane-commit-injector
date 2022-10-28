@@ -17,6 +17,7 @@
 import { Octane } from '@microfocus/alm-octane-js-rest-sdk';
 import configs from '../config/config.js';
 import log from '../config/loggerConfig.js';
+import Query from '@microfocus/alm-octane-js-rest-sdk/lib/query.js';
 
 const octane = new Octane({
   server: configs.octaneUrl,
@@ -47,6 +48,15 @@ const sendOctanePutRequest = async (path, entityList) => {
     0
   );
   return numberOfCommits;
+};
+
+export const getOctaneBuild = async () => {
+  const response = await octane
+    .get(Octane.entityTypes.ciBuilds)
+    .query(Query.field('name').equal(configs.octaneBuildId).build())
+    .execute();
+
+  return response.total_count !== 0;
 };
 
 export const putOctaneCommits = async (commits) => {

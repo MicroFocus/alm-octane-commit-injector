@@ -41,17 +41,19 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
     if (response.status === 200) {
       return await response.json();
     } else {
-      console.log(`Response: ${response.status} ${response.statusText}`);
+      log.warn(`Response: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
-    console.log(error);
+    log.error(error.message);
   }
 };
 
-export const getCommits = async () => {
-  log.debug('Fetching commits...');
+export const getCommits = async (branch) => {
+  console.log(
+    '______________________________________________________________________________________'
+  );
+  log.debug('Fetching commits from branch: ' + branch);
   const withSince = configs.bitBucketSince !== '' ? '&since=' : '';
-  const withUntil = configs.bitBucketUntil !== '' ? '&until=' : '';
 
   let start = 0;
   let jsonResponse = await sendBitBucketGetRequest(
@@ -59,8 +61,8 @@ export const getCommits = async () => {
       +start +
       withSince +
       configs.bitBucketSince +
-      withUntil +
-      configs.bitBucketUntil,
+      '&until=' +
+      encodeURIComponent(branch),
     'api'
   );
   let commits = jsonResponse.values;
@@ -72,8 +74,8 @@ export const getCommits = async () => {
         +start +
         withSince +
         configs.bitBucketSince +
-        withUntil +
-        configs.bitBucketUntil,
+        '&until=' +
+        encodeURIComponent(branch),
       'api'
     );
     commits = commits.concat(jsonResponse.values);
@@ -102,22 +104,27 @@ export const getCommitContent = async (commitId) => {
   return changes;
 };
 
-export const getCommitBranch = async (commitId) => {
+export const getBranches = async () => {
   let start = 0;
   let jsonResponse = await sendBitBucketGetRequest(
-    '/branches/info/' + commitId + '?limit=200&start=' + start,
-    'branch-utils'
+    '/branches/' + '?limit=200&start=' + start,
+    'api'
   );
   let branches = jsonResponse.values;
 
   while (jsonResponse.isLastPage === false) {
     start = jsonResponse.nextPageStart;
     jsonResponse = await sendBitBucketGetRequest(
-      '/branches/info/' + commitId + '?limit=200&start=' + start,
-      'branch-utils'
+      '/branches/' + '?limit=200&start=' + start,
+      'api'
     );
     branches = branches.concat(jsonResponse.values);
   }
 
   return branches;
+};
+
+export const getCommitById = async (id) => {
+  const commit = await sendBitBucketGetRequest('/commits/' + id, 'api');
+  return commit;
 };
