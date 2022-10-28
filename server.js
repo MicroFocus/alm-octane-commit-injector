@@ -31,7 +31,7 @@ import {
 import log from './src/config/loggerConfig.js';
 import configs from './src/config/config.js';
 
-const verifyBranches = async () => {
+const getConfigBranches = async () => {
   const branches = [];
   (await getBranches()).forEach((branch) => branches.push(branch.displayId));
   if (configs.bitBucketBranches === '') return branches;
@@ -45,7 +45,7 @@ const verifyBranches = async () => {
 };
 
 const groupCommitsByBranch = async () => {
-  const branches = await verifyBranches();
+  const branches = await getConfigBranches();
   const untilCommitTimestamp =
     configs.bitBucketUntil !== ''
       ? (await getCommitById(configs.bitBucketUntil)).committerTimestamp
