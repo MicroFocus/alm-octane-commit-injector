@@ -53,14 +53,11 @@ export const getCommits = async (branch) => {
     '______________________________________________________________________________________'
   );
   log.debug('Fetching commits from branch: ' + branch);
-  const withSince = configs.bitBucketSince !== '' ? '&since=' : '';
 
   let start = 0;
   let jsonResponse = await sendBitBucketGetRequest(
     '/commits/?limit=200&start=' +
       +start +
-      withSince +
-      configs.bitBucketSince +
       '&until=' +
       encodeURIComponent(branch),
     'api'
@@ -72,8 +69,6 @@ export const getCommits = async (branch) => {
     jsonResponse = await sendBitBucketGetRequest(
       '/commits/?limit=200&start=' +
         +start +
-        withSince +
-        configs.bitBucketSince +
         '&until=' +
         encodeURIComponent(branch),
       'api'
