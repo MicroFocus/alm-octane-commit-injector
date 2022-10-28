@@ -86,7 +86,7 @@ const groupCommitsByBranch = async () => {
         log.debug(`${nrCommits} commits have been sent to ALM Octane`);
       }
     } catch (error) {
-      log.debug('Something went wrong !' + error.message);
+      log.debug(`Something went wrong ! ${error.message}`);
     }
   }
 };
