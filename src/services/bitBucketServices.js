@@ -22,14 +22,8 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
   if (!path.startsWith('/')) path = '/' + path;
   try {
     const response = await fetch(
-      configs.bitBucketUrl +
-        '/rest/' +
-        pathApiOrBranchUtils +
-        '/1.0/projects/' +
-        configs.bitBucketProjectKey +
-        '/repos/' +
-        configs.bitBucketRepoSlug +
-        path,
+      `${configs.bitBucketUrl}/rest/${pathApiOrBranchUtils}` +
+        `/1.0/projects/${configs.bitBucketProjectKey}/repos/${configs.bitBucketRepoSlug}${path}`,
       {
         method: 'GET',
         headers: {
@@ -41,7 +35,8 @@ const sendBitBucketGetRequest = async (path, pathApiOrBranchUtils) => {
     if (response.status === 200) {
       return await response.json();
     } else {
-      log.warn(`Response: ${response.status} ${response.statusText}`);
+      log.warn(`
+        Response: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
     log.error(error.message);
@@ -52,17 +47,11 @@ export const getCommits = async (branch) => {
   console.log(
     '______________________________________________________________________________________'
   );
-  log.debug('Fetching commits from branch: ' + branch);
-  const withSince = configs.bitBucketSince !== '' ? '&since=' : '';
+  log.debug(`Fetching commits from branch:  ${branch}`);
 
   let start = 0;
   let jsonResponse = await sendBitBucketGetRequest(
-    '/commits/?limit=200&start=' +
-      +start +
-      withSince +
-      configs.bitBucketSince +
-      '&until=' +
-      encodeURIComponent(branch),
+    `/commits/?limit=200&start=${start}&until=${encodeURIComponent(branch)}`,
     'api'
   );
   let commits = jsonResponse.values;
@@ -70,12 +59,7 @@ export const getCommits = async (branch) => {
   while (jsonResponse.isLastPage === false) {
     start = jsonResponse.nextPageStart;
     jsonResponse = await sendBitBucketGetRequest(
-      '/commits/?limit=200&start=' +
-        +start +
-        withSince +
-        configs.bitBucketSince +
-        '&until=' +
-        encodeURIComponent(branch),
+      `/commits/?limit=200&start=${start}&until=${encodeURIComponent(branch)}`,
       'api'
     );
     commits = commits.concat(jsonResponse.values);
@@ -87,7 +71,7 @@ export const getCommits = async (branch) => {
 export const getCommitContent = async (commitId) => {
   let start = 0;
   let jsonResponse = await sendBitBucketGetRequest(
-    '/commits/' + commitId + '/changes?limit=200&start' + start,
+    `/commits/${commitId}/changes?limit=200&start=${start}`,
     'api'
   );
   let changes = jsonResponse.values;
@@ -95,7 +79,7 @@ export const getCommitContent = async (commitId) => {
   while (jsonResponse.isLastPage === false) {
     start = jsonResponse.nextPageStart;
     jsonResponse = await sendBitBucketGetRequest(
-      '/commits/' + commitId + '/changes?limit=200&start' + start,
+      `/commits/${commitId}/changes?limit=200&start=${start}`,
       'api'
     );
     changes = changes.concat(jsonResponse.values);
@@ -107,7 +91,7 @@ export const getCommitContent = async (commitId) => {
 export const getBranches = async () => {
   let start = 0;
   let jsonResponse = await sendBitBucketGetRequest(
-    '/branches/' + '?limit=200&start=' + start,
+    `/branches/?limit=200&start=${start}`,
     'api'
   );
   let branches = jsonResponse.values;
@@ -115,7 +99,7 @@ export const getBranches = async () => {
   while (jsonResponse.isLastPage === false) {
     start = jsonResponse.nextPageStart;
     jsonResponse = await sendBitBucketGetRequest(
-      '/branches/' + '?limit=200&start=' + start,
+      `/branches/?limit=200&start=${start}`,
       'api'
     );
     branches = branches.concat(jsonResponse.values);
@@ -125,6 +109,6 @@ export const getBranches = async () => {
 };
 
 export const getCommitById = async (id) => {
-  const commit = await sendBitBucketGetRequest('/commits/' + id, 'api');
+  const commit = await sendBitBucketGetRequest(`/commits/${id}`, 'api');
   return commit;
 };

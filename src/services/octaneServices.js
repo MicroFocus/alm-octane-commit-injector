@@ -35,7 +35,7 @@ const sendOctanePutRequest = async (path, entityList) => {
   log.debug(
     (
       await octane.executeCustomRequest(
-        '/api/shared_spaces/' + path,
+        `/api/shared_spaces/${path}`,
         Octane.operationTypes.update,
         entityList,
         { 'content-type': 'application/json' }
@@ -62,13 +62,8 @@ export const getOctaneBuild = async () => {
 export const putOctaneCommits = async (commits) => {
   log.debug('Injecting commits to ALM Octane...');
   return await sendOctanePutRequest(
-    configs.octaneSharedSpace +
-      '/scm-commits?instance-id=' +
-      configs.octaneCIServer +
-      '&job-ci-id=' +
-      configs.octaneJobId +
-      '&build-ci-id=' +
-      configs.octaneBuildId,
+    `${configs.octaneSharedSpace}/scm-commits?instance-id=${configs.octaneCIServer}` +
+      `&job-ci-id=${configs.octaneJobId}&build-ci-id=${configs.octaneBuildId}`,
     commits
   );
 };

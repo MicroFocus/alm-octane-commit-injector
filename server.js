@@ -50,13 +50,27 @@ const groupCommitsByBranch = async () => {
     configs.bitBucketUntil !== ''
       ? (await getCommitById(configs.bitBucketUntil)).committerTimestamp
       : undefined;
+  const sinceCommitTimestamp =
+    configs.bitBucketSince !== ''
+      ? (await getCommitById(configs.bitBucketSince)).committerTimestamp
+      : undefined;
   for (const branch of branches) {
     const commits = await getCommits(branch);
     const convertedCommits = [];
     for (const commit of commits) {
       if (
-        untilCommitTimestamp === undefined ||
-        new Date(commit.committerTimestamp) < new Date(untilCommitTimestamp)
+        (untilCommitTimestamp === undefined &&
+          sinceCommitTimestamp === undefined) ||
+        (new Date(commit.committerTimestamp) <=
+          new Date(untilCommitTimestamp) &&
+          new Date(commit.committerTimestamp) >=
+            new Date(sinceCommitTimestamp)) ||
+        (new Date(commit.committerTimestamp) <=
+          new Date(untilCommitTimestamp) &&
+          sinceCommitTimestamp === undefined) ||
+        (new Date(commit.committerTimestamp) >=
+          new Date(sinceCommitTimestamp) &&
+          untilCommitTimestamp === undefined)
       ) {
         const changes = await getCommitContent(commit.id);
         convertedCommits.push(
@@ -65,18 +79,23 @@ const groupCommitsByBranch = async () => {
       }
     }
     try {
-      const nrCommits = await putOctaneCommits(
-        await buildCommitOctaneJson(convertedCommits, branch)
-      );
-      log.debug(`${nrCommits} commits have been sent to ALM Octane`);
+      if (convertedCommits.length > 0) {
+        const nrCommits = await putOctaneCommits(
+          await buildCommitOctaneJson(convertedCommits, branch)
+        );
+        log.debug(`${nrCommits} commits have been sent to ALM Octane`);
+      }
     } catch (error) {
-      log.debug('Something went wrong !' + error.message);
+      log.debug(`Something went wrong ! ${error.message}`);
     }
   }
 };
 const injectCommits = async () => {
   if (await getOctaneBuild()) await groupCommitsByBranch();
-  else log.error(`Build with id: ${configs.octaneBuildId} is not in given workspace : ${configs.octaneWorkspace}`);
+  else
+    log.error(
+      `Build with id: ${configs.octaneBuildId} is not in given workspace : ${configs.octaneWorkspace}`
+    );
 };
 
 await injectCommits();
