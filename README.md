@@ -14,36 +14,52 @@ from the root directory.
 
 This tool uses multiple parameters from the configuration file ('.env') to fetch commits between two specific boundaries, map them to the ALM Octane format and inject them to a specific CI.
 
+egg.:
+
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/9da6a39f-fe2d-4c7b-b7e3-d81213f93352)
+
+
 ### BitBucketServer parameters
 
-BITBUCKET_URL - base url for bitbucket server (egg. https://bitbucket.mycompany.com)
+BITBUCKET_URL - base URL for BitBucket server (egg. https://bitbucket.mycompany.com)
 
-BITBUCKET_ACCESSTOKEN - a generated http access token from BitBucket
+BITBUCKET_ACCESSTOKEN - a generated HTTP access token from BitBucket
 
-BITBUCKET_PROJECT_NAME - key of the project (usually a 3 characters abrevetion of the project name can be found in BitBucket-> Projects)
+BITBUCKET_PROJECT_KEY - key of the project (usually 3 characters abbreviation of the project name can be found in BitBucket → Projects)
 
 BITBUCKET_REPO_SLUG - repository name
 
-SINCE - the commit ID after which commits should be fetched
+BITBUCKET_BRANCHES - a list of the branch names separated with ';' (if this is empty, it will automatically fetch the commits from all branches)
 
-UNTIL - the commit ID before which commits should be fetched
+SINCE - the commit ID after which commits should be fetched (if this is empty, it will fetch the commits from the beginning)
+
+UNTIL - the commit ID before which commits should be fetched (if this is empty, it will fetch the commits until the last one)
 
 ### ALM Octane parameters
 OCTANE_URL - ALM Octane base URL
 
-OCTANE_CLIENT_ID - client id for an active API Access (A new one can be create in Octane->Spaces->API Access)
+OCTANE_CLIENT_ID - client ID for an active API Access (A new one can be created in Octane → Spaces → API Access)
 
 OCTANE_CLIENT_SECRET - client secret for an active API Access
 
-OCTANE_SHAREDSPACE - sharedspace id
+OCTANE_SHAREDSPACE - sharedSpace ID
 
-OCTANE_WORKSPACE - workspace id
+OCTANE_WORKSPACE - workspace ID
 
-OCTANE_CI_SERVER_ID - instance_id of the CI Server
+OCTANE_CI_SERVER_ID - instance_id of the CI Server (can be found in Settings -> Spaces -> {workspace_name} -> DevOps -> CI Servers -> Instance ID)
 
-OCTANE_JOB_ID - ci_id of the CI Job representing the name of the job
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/aef8037d-b96a-4932-ad20-b725440b9e41)
 
-OCTANE_BUILD_ID - build_ci_id of the CI Build
+
+OCTANE_JOB_ID - ci_id of the CI Job representing the name of the job (can be found under Pipilines -> Overview)
+
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/9ee13df0-4915-4c01-9126-d031632228ec)
+
+
+OCTANE_BUILD_ID - build_ci_id of the CI Build (can be found under Pipilines -> Overview -> {Job} -> Builds (Grid View))
+
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/c5665401-c6b7-4fec-b88e-436bb607d391)
+
 
 
 
