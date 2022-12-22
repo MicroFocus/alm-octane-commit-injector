@@ -2,13 +2,28 @@
 
 ## Introduction
 
-A tool that can be used to inject commits to ALM Octane, using ALM Octane JavaScript Rest SDK. For more information also check ALM Octane JavaScript Rest SDK documentation and  REST API documentation for more details about Octane's API.
+A tool that can be used to inject commits from BitBucket Server in ALM Octane.
 
-Easiest way to run is using the command:
+## How to install
 
-`npm start`
+### Install locally
 
-from the root directory.
+#### By cloning the project
+
+- Download the project locally
+- Navigate inside the project
+- run `npm i -g`
+- You can now run `npx alm-octane-commit-injector` command from anywhere using a terminal
+
+#### By directly installing the command globally
+
+- run `npm i -g @microfocus/alm-octane-commit-injector`
+- You can now run `npx alm-octane-commit-injector` command from anywhere using a terminal
+
+### Run directly from the npm registry
+
+- Directly run `npx @microfocus/alm-octane-commit-injector` command so that npm automatically downloads and runs the tool
+
 
 ## Configuration
 
