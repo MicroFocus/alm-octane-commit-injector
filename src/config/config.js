@@ -15,7 +15,6 @@
  */
 
 import { config } from 'dotenv';
-import log from "./loggerConfig.js";
 
 config();
 
