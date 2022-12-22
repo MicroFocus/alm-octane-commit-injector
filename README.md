@@ -31,7 +31,7 @@ A tool that can be used to inject commits from BitBucket Server in ALM Octane.
 
 This tool uses multiple parameters from the configuration file ('.env') to fetch commits between two specific boundaries, map them to the ALM Octane format and inject them to a specific CI.
 
-egg.:
+e.g.:
 
 ![image](https://media.github.houston.softwaregrp.net/user/15955/files/9da6a39f-fe2d-4c7b-b7e3-d81213f93352)
 
