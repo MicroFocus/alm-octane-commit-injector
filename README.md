@@ -24,6 +24,8 @@ A tool that can be used to inject commits from BitBucket Server in ALM Octane.
 
 - Directly run `npx @microfocus/alm-octane-commit-injector` command so that npm automatically downloads and runs the tool
 
+### Note: .env configuration file should be in the same directory where the `npx` command is run.
+
 
 ## Configuration
 
