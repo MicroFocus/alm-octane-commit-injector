@@ -53,7 +53,7 @@ const sendOctanePutRequest = async (path, entityList) => {
 export const getOctaneBuild = async () => {
   const response = await octane
     .get(Octane.entityTypes.ciBuilds)
-    .query(Query.field('name').equal(configs.octaneBuildId).build())
+    .query(Query.field('id').equal(configs.octaneBuildId).build())
     .execute();
 
   return response.total_count !== 0;
