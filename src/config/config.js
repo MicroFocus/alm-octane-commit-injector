@@ -15,6 +15,7 @@
  */
 
 import { config } from 'dotenv';
+import log from "./loggerConfig.js";
 
 config();
 
@@ -38,29 +39,29 @@ const configs = {
 
 const validateConfigs = () => {
   if(configs.octaneUrl === '')
-    throw 'Octane URL is empty';
+    throw new Error('Octane URL is empty');
   if(configs.octaneSharedSpace === '')
-    throw 'Octane Shared Space is empty';
+    throw new Error('Octane Shared Space is empty');
   if(configs.octaneWorkspace === '')
-    throw 'Octane Workspace is empty';
+    throw new Error('Octane Workspace is empty');
   if(configs.octaneUser === '')
-    throw 'Octane User is empty';
+    throw new Error('Octane User is empty');
   if(configs.octanePassword === '')
-    throw 'Octane Password is empty';
+    throw new Error('Octane Password is empty');
   if(configs.octaneCIServer === '')
-    throw 'Octane CI Server Instance is empty';
+    throw new Error('Octane CI Server Instance is empty');
   if(configs.octaneJobId === '')
-    throw 'Octane Job ID is empty';
+    throw new Error('Octane Job ID is empty');
   if(configs.octaneBuildId === '')
-    throw 'Octane Build ID is empty';
+    throw new Error('Octane Build ID is empty');
   if(configs.bitBucketUrl === '')
-    throw 'BitBucket Server URL is empty';
+    throw new Error('BitBucket Server URL is empty');
   if(configs.bitBucketAccessToken === '')
-    throw 'BitBucket Server Access Token is empty';
+    throw new Error('BitBucket Server Access Token is empty');
   if(configs.bitBucketProjectKey === '')
-    throw 'BitBucket Server Project Key is empty';
+    throw new Error('BitBucket Server Project Key is empty');
   if(configs.bitBucketRepoSlug=== '')
-    throw 'BitBucket Server Repository Name is empty';
+    throw new Error('BitBucket Server Repository Name is empty');
 }
 
 validateConfigs();
