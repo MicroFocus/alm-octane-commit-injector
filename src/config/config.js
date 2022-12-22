@@ -35,4 +35,34 @@ const configs = {
   bitBucketSince: process.env.SINCE,
   bitBucketUntil: process.env.UNTIL,
 };
+
+const validateConfigs = () => {
+  if(configs.octaneUrl === '')
+    throw 'Octane URL is empty';
+  if(configs.octaneSharedSpace === '')
+    throw 'Octane Shared Space is empty';
+  if(configs.octaneWorkspace === '')
+    throw 'Octane Workspace is empty';
+  if(configs.octaneUser === '')
+    throw 'Octane User is empty';
+  if(configs.octanePassword === '')
+    throw 'Octane Password is empty';
+  if(configs.octaneCIServer === '')
+    throw 'Octane CI Server Instance is empty';
+  if(configs.octaneJobId === '')
+    throw 'Octane Job ID is empty';
+  if(configs.octaneBuildId === '')
+    throw 'Octane Build ID is empty';
+  if(configs.bitBucketUrl === '')
+    throw 'BitBucket Server URL is empty';
+  if(configs.bitBucketAccessToken === '')
+    throw 'BitBucket Server Access Token is empty';
+  if(configs.bitBucketProjectKey === '')
+    throw 'BitBucket Server Project Key is empty';
+  if(configs.bitBucketRepoSlug=== '')
+    throw 'BitBucket Server Repository Name is empty';
+}
+
+validateConfigs();
+
 export default configs;
