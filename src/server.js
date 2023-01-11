@@ -17,19 +17,19 @@
 import {
   buildCommitOctaneJson,
   convertBitBucketServerToOctane,
-} from './src/utils/jsonConverter.js';
+} from './utils/jsonConverter.js';
 import {
   getBranches,
   getCommitContent,
   getCommits,
   getCommitById,
-} from './src/services/bitBucketServices.js';
+} from './services/bitBucketServices.js';
 import {
   getOctaneBuild,
   putOctaneCommits,
-} from './src/services/octaneServices.js';
-import log from './src/config/loggerConfig.js';
-import configs from './src/config/config.js';
+} from './services/octaneServices.js';
+import log from './config/loggerConfig.js';
+import configs from './config/config.js';
 
 const getConfigBranches = async () => {
   const branches = [];

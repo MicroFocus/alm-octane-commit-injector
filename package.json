@@ -1,25 +1,22 @@
 {
-  "name": "alm-octane-commit-injector",
+  "name": "@microfocus/alm-octane-commit-injector",
   "version": "1.0.0",
-  "description": "A commit injector for Alm Octane",
-  "main": "index.js",
+  "description": "A tool that can be used to inject commits from BitBucket Server in ALM Octane.",
+  "main": "src/server.js",
+  "bin": "src/server.js",
   "scripts": {
-    "start": "node server.js"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "tabWidth": 2,
-    "jsxSingleQuote": true,
-    "quoteProps": "as-needed",
-    "semi": true
+    "start": "node src/server.js"
   },
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git@github.houston.softwaregrp.net:Octane/alm-octane-commit-injector.git"
+    "url": "git+https://github.com/MicroFocus/alm-octane-commit-injector.git"
   },
-  "author": "Madalin Tiutiu",
-  "license": "ISC",
+  "homepage": "https://github.com/MicroFocus/alm-octane-commit-injector",
+  "contributors": [
+    "Madalin Tiutiu <madalin.tiutiu@microfocus.com>"
+  ],
+  "license": "Apache-2.0",
   "dependencies": {
     "@microfocus/alm-octane-js-rest-sdk": "^16.0.400",
     "dotenv": "^16.0.2",
@@ -29,5 +26,12 @@
   "devDependencies": {
     "multimap": "^1.1.0",
     "prettier": "^2.7.1"
-  }
+  },
+  "keywords": [
+    "octane",
+    "microfocus",
+    "alm",
+    "commits",
+    "bitbucket"
+  ]
 }
