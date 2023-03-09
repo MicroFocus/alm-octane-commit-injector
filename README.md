@@ -33,7 +33,7 @@ This tool uses multiple parameters from the configuration file ('.env') to fetch
 
 e.g.:
 
-![git0](https://user-images.githubusercontent.com/62649591/211793525-fd8072c5-2df2-4867-ae6d-9b58c1a770bf.png)
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/9da6a39f-fe2d-4c7b-b7e3-d81213f93352)
 
 
 ### BitBucketServer parameters
@@ -65,14 +65,18 @@ OCTANE_WORKSPACE - workspace ID
 
 OCTANE_CI_SERVER_ID - instance_id of the CI Server (can be found in Settings -> Spaces -> {workspace_name} -> DevOps -> CI Servers -> Instance ID)
 
-![git1](https://user-images.githubusercontent.com/62649591/211793673-6cd3cd17-2f5a-4c5d-8981-90c82d23eba6.png)
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/aef8037d-b96a-4932-ad20-b725440b9e41)
 
 
 OCTANE_JOB_ID - ci_id of the CI Job representing the name of the job (can be found under Pipilines -> Overview)
 
-![git2](https://user-images.githubusercontent.com/62649591/211793708-5db13300-0e63-46e5-af68-fe3d313d0f76.png)
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/9ee13df0-4915-4c01-9126-d031632228ec)
 
 
 OCTANE_BUILD_ID - build_ci_id of the CI Build (can be found under Pipilines -> Overview -> {Job} -> Builds (Grid View))
 
-![git3](https://user-images.githubusercontent.com/62649591/211793727-7dfb9c4e-8ead-4dcd-9c94-b275215650ce.png)
+![image](https://media.github.houston.softwaregrp.net/user/15955/files/c5665401-c6b7-4fec-b88e-436bb607d391)
+
+
+
+
